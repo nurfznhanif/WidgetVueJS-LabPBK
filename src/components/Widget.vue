@@ -9,8 +9,8 @@
 export default {
   data() {
     return {
-      title: 'Widget Title',
-      message: 'Hello, I am a widget!',
+      title: "Widget Title",
+      message: "Hello, I am a widget!",
     };
   },
 };

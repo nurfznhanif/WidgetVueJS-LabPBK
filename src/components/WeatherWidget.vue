@@ -1,21 +1,29 @@
 <template>
-  <div class="weather-widget">
-    <h2 class="widget-title">Weather Widget</h2>
-    <div class="location-input">
-      <label for="location">Enter Location:</label>
-      <input type="text" id="location" v-model="location" />
-      <button @click="fetchWeatherData">Get Weather</button>
+  <div class="weather-widget p-4 bg-light rounded shadow">
+    <h2 class="widget-title mb-4">Widget Cuaca</h2>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        v-model="location"
+        placeholder="Masukkan Lokasi"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" @click="fetchWeatherData">
+          Cari
+        </button>
+      </div>
     </div>
     <div v-if="weatherData" class="weather-data">
-      <p class="location">Location: {{ weatherData.name }}</p>
+      <p class="location mb-2">Lokasi: {{ weatherData.name }}</p>
       <p v-if="weatherData.main" class="temperature">
-        Temperature: {{ weatherData.main.temp }}°C
+        Temperatur: {{ Math.round(weatherData.main.temp - 273.15) }}°C
       </p>
-      <p v-if="weatherData.weather" class="description">
-        Description: {{ weatherData.weather[0].description }}
+      <p v-if="weatherData.weather" class="description mb-0">
+        Deskripsi: {{ weatherData.weather[0].description }}
       </p>
     </div>
-    <p v-else>Loading weather data...</p>
+    <p v-else class="loader">Loading data...</p>
   </div>
 </template>
 
@@ -23,14 +31,14 @@
 export default {
   data() {
     return {
-      location: '',
-      weatherData: null
+      location: "",
+      weatherData: null,
     };
   },
   methods: {
     async fetchWeatherData() {
       try {
-        const apiKey = 'b7bfca7b27a3485144fea086c50d09dc';
+        const apiKey = "b7bfca7b27a3485144fea086c50d09dc";
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${this.location}&appid=${apiKey}`;
 
         const response = await fetch(apiUrl);
@@ -38,33 +46,27 @@ export default {
 
         this.weatherData = data;
       } catch (error) {
-        console.error('Error fetching weather data:', error);
+        console.error("Error fetching weather data:", error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .weather-widget {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  background-color: #f2f2f2;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
 }
 
 .widget-title {
-  margin-top: 0;
-  color: #333;
-}
-
-.location-input {
-  margin-bottom: 10px;
+  font-size: 24px;
+  text-align: center;
 }
 
 .weather-data {
-  margin-top: 10px;
+  text-align: center;
 }
 
 .location {
@@ -79,5 +81,10 @@ export default {
 
 .description {
   font-size: 16px;
+}
+
+.loader {
+  font-size: 16px;
+  text-align: center;
 }
 </style>

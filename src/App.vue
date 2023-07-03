@@ -1,23 +1,64 @@
 <template>
   <div id="app">
-    <header>
-      <nav>
-        <ul>
-          <li><router-link to="/">Weather</router-link></li>
-          <li><router-link to="/location">Location</router-link></li>
-          <li><router-link to="/stopwatch">Stopwatch</router-link></li>
-          <li><router-link to="/tictactoe">Tic Tac Toe</router-link></li>
-          <li><router-link to="/photo">Photo</router-link></li>
-        </ul>
+    <header class="bg-dark py-3">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <router-link to="/" class="navbar-brand">WIDGET</router-link>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <router-link to="/" class="nav-link">Cuaca</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/location" class="nav-link"
+                  >Lokasi</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link to="/stopwatch" class="nav-link"
+                  >Stopwatch</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link to="/tictactoe" class="nav-link"
+                  >Tic Tac Toe</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link to="/photo" class="nav-link">Photo</router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
-    <router-view></router-view>
+    <div class="container py-4">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import $ from "jquery";
 export default {
-  name: 'App',
+  name: "App",
+  mounted() {
+    // Inisialisasi Navbar Toggler
+    $(".navbar-toggler").on("click", function () {
+      $(this).toggleClass("active");
+    });
+  },
 };
 </script>
 
@@ -31,24 +72,37 @@ header {
   padding: 20px;
 }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.navbar-brand {
+  font-size: 24px;
 }
 
-nav li {
-  display: inline-block;
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.nav-item {
   margin-right: 10px;
 }
 
-nav a {
+.nav-link {
   color: #fff;
   text-decoration: none;
   padding: 5px 10px;
+  transition: color 0.3s;
 }
 
-nav a:hover {
-  text-decoration: underline;
+.nav-link:hover {
+  color: #aaa;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.py-4 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 </style>

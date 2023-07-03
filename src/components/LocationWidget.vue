@@ -1,31 +1,46 @@
 <template>
-  <div class="location-widget">
-    <h2>Your Location</h2>
+  <div class="location-widget container py-4 bg-light rounded shadow">
+    <hr color="grey" />
+    <h2 class="mb-4">LOKASI SEKARANG</h2>
     <div v-if="latitude && longitude">
-      <p>Latitude: {{ latitude }}</p>
-      <p>Longitude: {{ longitude }}</p>
+      <p>Garis Lintang: {{ latitude }}</p>
+      <p>Garis Bujur: {{ longitude }}</p>
+      <hr color="grey" />
     </div>
-    <div v-else>
-      <p>Finding your location...</p>
+    <div>
+      <p>CARI LOKASI</p>
+      <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <label for="latitude" class="form-label">Garis Lintang:</label>
+          <input
+            type="text"
+            id="latitude"
+            class="form-control"
+            v-model="inputLatitude"
+          />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="longitude" class="form-label">Garis Bujur:</label>
+          <input
+            type="text"
+            id="longitude"
+            class="form-control"
+            v-model="inputLongitude"
+          />
+        </div>
+      </div>
     </div>
 
-    <div class="location-input">
-      <label for="latitude">Latitude:</label>
-      <input type="text" id="latitude" v-model="inputLatitude" />
-    </div>
-    <div class="location-input">
-      <label for="longitude">Longitude:</label>
-      <input type="text" id="longitude" v-model="inputLongitude" />
-    </div>
+    <button class="btn btn-primary mt-4" @click="fetchLocationDetails">
+      Cari Detail Lokasi
+    </button>
 
-    <button @click="fetchLocationDetails">Find Location Details</button>
-
-    <div v-if="foundLocation">
-      <h3>Location Details</h3>
+    <div v-if="foundLocation" class="mt-4">
+      <h3>Detail Lokasi</h3>
       <p>{{ foundLocation.components.country }}</p>
       <p>{{ foundLocation.components.city }}</p>
       <p>{{ foundLocation.components.street }}</p>
-      <p>Postal Code: {{ foundLocation.components.postcode }}</p>
+      <p>Postal Kode: {{ foundLocation.components.postcode }}</p>
     </div>
   </div>
 </template>
@@ -36,8 +51,8 @@ export default {
     return {
       latitude: null,
       longitude: null,
-      inputLatitude: '',
-      inputLongitude: '',
+      inputLatitude: "",
+      inputLongitude: "",
       foundLocation: null,
     };
   },
@@ -53,11 +68,11 @@ export default {
     },
     async fetchLocationDetails() {
       try {
-        const apiKey = '92591005a7b94008909d59a64b6d2a49';
+        const apiKey = "92591005a7b94008909d59a64b6d2a49";
         const latitude = this.inputLatitude || this.latitude;
         const longitude = this.inputLongitude || this.longitude;
         const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-          latitude + ',' + longitude
+          latitude + "," + longitude
         )}&key=${apiKey}`;
 
         const response = await fetch(apiUrl);
@@ -66,11 +81,11 @@ export default {
         if (data.results && data.results.length > 0) {
           const location = data.results[0];
           this.foundLocation = location;
-          console.log('Location:', location);
+          console.log("Location:", location);
           // Lakukan sesuatu dengan data lokasi yang ditemukan
         }
       } catch (error) {
-        console.error('Error fetching location data:', error);
+        console.error("Error fetching location data:", error);
       }
     },
   },
@@ -79,11 +94,6 @@ export default {
 
 <style scoped>
 .location-widget {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  background-color: #f5f5f5;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -98,66 +108,8 @@ export default {
   color: #666;
 }
 
-.location-input {
-  margin-top: 20px;
-}
-
-.location-input label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-  font-size: 16px;
-}
-
-.location-input input {
-  width: 200px;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.location-input button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.location-input button:hover {
-  background-color: #45a049;
-}
-
-.location-input button:disabled {
-  background-color: #ccc;
-  color: #999;
-  cursor: not-allowed;
-}
-
-.location-details {
-  margin-top: 20px;
-  text-align: left;
-}
-
-.location-details h3 {
-  margin-bottom: 10px;
-  color: #333;
-  font-size: 18px;
-}
-
-.location-details p {
-  margin: 5px 0;
-  color: #666;
-}
-
 .error-message {
   color: red;
   margin-top: 10px;
 }
 </style>
-
